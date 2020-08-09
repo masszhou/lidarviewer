@@ -1,0 +1,20 @@
+<RCC>
+    <qresource lang="GLSL" prefix="/">
+        <file>shader/box_3d.vert</file>
+        <file>shader/box_3d.frag</file>
+        <file>shader/canvas.frag</file>
+        <file>shader/canvas.vert</file>
+        <file>shader/floor_grid_ortho.frag</file>
+        <file>shader/floor_grid_ortho.vert</file>
+        <file>shader/box_2d.frag</file>
+        <file>shader/box_2d.vert</file>
+        <file>shader/floor_grid_perspective.frag</file>
+        <file>shader/floor_grid_perspective.vert</file>
+        <file>shader/point.frag</file>
+        <file>shader/point.vert</file>
+    </qresource>
+    <qresource lang="obj" prefix="/">
+        <file>3d_model/wheel.obj</file>
+        <file>3d_model/vw_passat_b8.pts</file>
+    </qresource>
+</RCC>
