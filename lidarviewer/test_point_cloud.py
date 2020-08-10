@@ -83,16 +83,16 @@ def load_kitti(viewer_port: int, path="/media/zzhou/data-KITTI/object/training/v
     #     /
     #   +z
     # camera look from z axis = driving direction in kitti lidar coordinates
-    pts_opengl = np.zeros_like(pts_kitti)
-    pts_opengl[:, 0] = pts_kitti[:, 1]*(-1)
-    pts_opengl[:, 1] = pts_kitti[:, 2]
-    pts_opengl[:, 2] = pts_kitti[:, 0]*(-1)
-    pts_opengl[:, 3] = pts_kitti[:, 3]
+    #pts_opengl = np.zeros_like(pts_kitti)
+    #pts_opengl[:, 0] = pts_kitti[:, 1]*(-1)
+    #pts_opengl[:, 1] = pts_kitti[:, 2]
+    #pts_opengl[:, 2] = pts_kitti[:, 0]*(-1)
+    #pts_opengl[:, 3] = pts_kitti[:, 3]
 
-    print(np.max(pts_opengl[:, 3]), np.min(pts_opengl[:, 3]))
+    print(np.max(pts_kitti[:, 3]), np.min(pts_kitti[:, 3]))
 
     test_view = Viewer(viewer_port)
-    test_view.load_points(pts_opengl[:, :3], pts_opengl[:, 3])
+    test_view.load_points(pts_kitti[:, :3], pts_kitti[:, 3])
 
 
 def load_npy_folder(viewer_port: int, data_path):

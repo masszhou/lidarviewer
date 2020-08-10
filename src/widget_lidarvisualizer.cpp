@@ -21,8 +21,8 @@ void LidarVisualizerWidget::initScene() {
     // --------------------------------------------------------------------------
     _transform.setTranslation(0.0f, 0.0f, 0.0f);  // set box at origin
 
-    _transform_ego_car.setTranslation(0.0f, -1.5f, 0.0f);  // set car position
-    _transform_ego_car.setRotation(90.0f, QVector3D(0.0f, 1.0f, 0.0f));  // set box at origin
+    _transform_ego_car.setTranslation(0.0f, 0.0f, -1.7f);
+    _transform_ego_car.rotate(90.0f, QVector3D(1.0f, 0.0f, 0.0f));  // rotate around x axis for 90 degrees
 
     // transfor from velodyne coord to opengl coord
     //        z x      y
@@ -31,10 +31,8 @@ void LidarVisualizerWidget::initScene() {
     //                /
     //               z
     _transform_velo_to_gl.setTranslation(0.0f, 0.0f, 0.0f);  // no offset for label boxes
-    _transform_velo_to_gl.rotate(90.0f, QVector3D(0.0f, 1.0f, 0.0f));  // rotate around y axis for 90 degrees
-    _transform_velo_to_gl.rotate(90.0f, QVector3D(0.0f, 0.0f, 1.0f));  // rotate around z axis for 90 degrees
 
-    _camera.initLookAtPoint(-5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f);
+    _camera.initLookAtPoint(-5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f, 0.0f, 3.14159f/2.0f, 0.0f);
 
     setFocusPolicy(Qt::StrongFocus);
 
@@ -270,6 +268,12 @@ void LidarVisualizerWidget::keyPressEvent(QKeyEvent *ev)
         qDebug() << "save screen to image_" + QString::number(_screenshot_counter) + ".png";
         this->grab().save("image_" + QString::number(_screenshot_counter) + ".png");
         _screenshot_counter += 1;
+    }else if (ev->key() == Qt::Key_R){
+        _transform_velo_to_gl.setRotation(0.0f, 0.0f, 0.0f);
+    }else if (ev->key() == Qt::Key_C){
+        _transform_velo_to_gl.setTranslation(0.0f, 0.0f, 0.0f);  // no offset for label boxes
+        _transform_velo_to_gl.rotate(90.0f, QVector3D(0.0f, 1.0f, 0.0f));  // rotate around y axis for 90 degrees
+        _transform_velo_to_gl.rotate(90.0f, QVector3D(0.0f, 0.0f, 1.0f));  // rotate around z axis for 90 degrees
     }
 
 }
