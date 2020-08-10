@@ -44,6 +44,7 @@ public:
     void setRotation(const QQuaternion &r);
     void setRotation(float angle, const QVector3D &axis);
     void setRotation(float angle, float ax, float ay, float az);
+    void setRotation(float pitch, float yaw, float roll);
 
     // Accessors
     const QVector3D& getTranslationVector() const;
@@ -91,6 +92,7 @@ inline void Transform3D::setScale(float x, float y, float z) { setScale(QVector3
 inline void Transform3D::setScale(float k) { setScale(QVector3D(k, k, k)); }
 inline void Transform3D::setRotation(float angle, const QVector3D &axis) { setRotation(QQuaternion::fromAxisAndAngle(axis, angle)); }
 inline void Transform3D::setRotation(float angle, float ax, float ay, float az) { setRotation(QQuaternion::fromAxisAndAngle(ax, ay, az, angle)); }
+inline void Transform3D::setRotation(float pitch, float yaw, float roll) { m_rotation = QQuaternion::fromEulerAngles(pitch, yaw, roll); }
 
 // Accessors
 inline const QVector3D& Transform3D::getTranslationVector() const { return m_translation; }
