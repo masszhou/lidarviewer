@@ -317,7 +317,9 @@ void LidarVisualizerWidget::mouseMoveEvent(QMouseEvent *ev)
             if (ev->modifiers() == Qt::ShiftModifier){
                 _camera.pan(QVector2D(ev->windowPos() - _press_pos));
             }else if (ev->modifiers() == Qt::NoModifier){
-                _camera.rotate(QVector2D(ev->windowPos() - _press_pos));
+                _camera.rotatePitchYaw(QVector2D(ev->windowPos() - _press_pos));
+            }else if (ev->modifiers() == Qt::AltModifier){
+                _camera.rotateRoll(QVector2D(ev->windowPos() - _press_pos).x());
             }
         }
     }

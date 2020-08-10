@@ -28,11 +28,11 @@ public:
     // =============================
     // camera transformation based on mouse movement (dx,dy)
     // =============================
-    void rotate(float dx, float dy);
+    void rotatePitchYaw(float dx, float dy);
+    void rotatePitchYaw(QVector2D delta);
     void pan(float dx, float dy);
     void zoom(float dx);
-
-    void rotate(QVector2D delta);
+    void rotateRoll(float delta);
     void pan(QVector2D delta);
 
     // =============================

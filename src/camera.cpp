@@ -151,10 +151,14 @@ void Camera::setRotation(float theta_rad, float phi_rad){
 // =============================
 // camera transformation based on mouse movement (dx,dy)
 // =============================
-void Camera::rotate(float dx, float dy)
+void Camera::rotatePitchYaw(float dx, float dy)
 {
     _phi -= _rotateRate * dx;
     _theta += _rotateRate * dy;
+    calCameraPosition();
+}
+void Camera::rotateRoll(float delta){
+    _roll += _rotateRate * delta;
     calCameraPosition();
 }
 
@@ -168,14 +172,14 @@ void Camera::zoom(float dx)
     _d = (std::max)(0.1f, _d * powf(_zoomRate, dx));
 }
 
-void Camera::rotate(QVector2D delta)
+void Camera::rotatePitchYaw(QVector2D delta)
 {
     // delta in screen space pixel scale
     if (delta.x() == 0.0f && delta.y() == 0.0f)
         return;
     if (_view_axis != ARBITRARY_AXIS)
         _view_axis = ARBITRARY_AXIS;
-    rotate(delta.x(), delta.y());
+    rotatePitchYaw(delta.x(), delta.y());
     calCameraPosition();
 }
 
