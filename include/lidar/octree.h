@@ -1,9 +1,12 @@
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
 // references
 // 1. pptk project
 // 2. simple octree, https://github.com/brandonpelfrey/SimpleOctree/blob/master/Octree.h
 
-#ifndef OCTREE_H
-#define OCTREE_H
+#ifndef LIDARVIEWER_OCTREE_H
+#define LIDARVIEWER_OCTREE_H
 #include <vector>
 #include <cstdint>  // restrict type length
 #include "octree_node.h"
@@ -107,4 +110,4 @@ private:
 
 };
 
-#endif // OCTREE_H
+#endif // LIDARVIEWER_OCTREE_H

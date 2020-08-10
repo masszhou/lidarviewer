@@ -1,5 +1,8 @@
-#ifndef SECTOR_H
-#define SECTOR_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_SECTOR_H
+#define LIDARVIEWER_SECTOR_H
 #include <iostream>
 #include <math.h>
 #define PI 3.14159265359f
@@ -55,4 +58,4 @@ inline float Sector::getEnd() const { return _end; }
 inline float Sector::rad2deg(float rad) { return rad / PI * 180.0f; }
 inline float Sector::deg2rad(float deg) { return deg / 180.0f * PI; }
 
-#endif // SECTOR_H
+#endif // LIDARVIEWER_SECTOR_H

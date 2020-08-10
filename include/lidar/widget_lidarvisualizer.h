@@ -1,5 +1,8 @@
-#ifndef TESTWIDGET_H
-#define TESTWIDGET_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_TESTWIDGET_H
+#define LIDARVIEWER_TESTWIDGET_H
 #include <QOpenGLWidget>
 #include <QMatrix4x4>
 #include <QWheelEvent>
@@ -93,4 +96,4 @@ private:
 
 };
 
-#endif // TESTWIDGET_H
+#endif // LIDARVIEWER_TESTWIDGET_H

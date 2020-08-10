@@ -1,5 +1,8 @@
-#ifndef DUMMYCAR_H
-#define DUMMYCAR_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_DUMMYCAR_H
+#define LIDARVIEWER_DUMMYCAR_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -49,4 +52,4 @@ private:
 };
 
 
-#endif // DUMMYCAR_H
+#endif // LIDARVIEWER_DUMMYCAR_H

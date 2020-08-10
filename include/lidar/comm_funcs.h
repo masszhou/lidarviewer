@@ -1,5 +1,8 @@
-#ifndef COMM_FUNCS_H
-#define COMM_FUNCS_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_COMM_FUNCS_H
+#define LIDARVIEWER_COMM_FUNCS_H
 
 #include <QTcpSocket>
 #include <vector>
@@ -156,4 +159,4 @@ void sendMultiDimArray(const T* source, const std::vector<quint64>& dims,
 }
 }
 
-#endif // COMM_FUNCS_H
+#endif // LIDARVIEWER_COMM_FUNCS_H

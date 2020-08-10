@@ -1,5 +1,8 @@
-#ifndef BOX3_H
-#define BOX3_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_BOX3_H
+#define LIDARVIEWER_BOX3_H
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -104,4 +107,4 @@ std::ostream& operator<<(std::ostream& os, const Box3<T>& b) {
        << b.min(2) << ", " << b.max(2) << "]";
     return os;
 }
-#endif // BOX3_H
+#endif // LIDARVIEWER_BOX3_H

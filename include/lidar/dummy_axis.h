@@ -1,5 +1,8 @@
-#ifndef DUMMY_AXIS_H
-#define DUMMY_AXIS_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_DUMMY_AXIS_H
+#define LIDARVIEWER_DUMMY_AXIS_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -34,4 +37,4 @@ private:
     QVector3D _dims;  // w, h, l
 };
 
-#endif // DUMMY_AXIS_H
+#endif // LIDARVIEWER_DUMMY_AXIS_H

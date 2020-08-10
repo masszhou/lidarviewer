@@ -1,5 +1,8 @@
-#ifndef DUMMYBACKGROUND_H
-#define DUMMYBACKGROUND_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_DUMMYBACKGROUND_H
+#define LIDARVIEWER_DUMMYBACKGROUND_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -37,4 +40,4 @@ inline DummyCanvas::DummyCanvas(){ setColor(0.1f, 0.1f, 0.15f); }
 inline DummyCanvas::DummyCanvas(float r, float g, float b){ setColor(r, g, b); }
 inline DummyCanvas::DummyCanvas(const QVector3D color){ setColor(color.x(), color.y(), color.z()); }
 
-#endif // DUMMYBACKGROUND_H
+#endif // LIDARVIEWER_DUMMYBACKGROUND_H

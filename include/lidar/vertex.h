@@ -1,5 +1,8 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_VERTEX_H
+#define LIDARVIEWER_VERTEX_H
 // from QtOpenGL tutorial by Trent Reed
 // https://www.trentreed.net/topics/opengl/
 
@@ -78,4 +81,4 @@ inline int Vertex::positionOffset() { return offsetof(Vertex, m_position);}  // 
 inline int Vertex::colorOffset() { return offsetof(Vertex, m_color);}
 inline int Vertex::stride() { return sizeof(Vertex);}
 
-#endif // VERTEX_H
+#endif // LIDARVIEWER_VERTEX_H

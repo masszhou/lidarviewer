@@ -1,5 +1,8 @@
-#ifndef OCTREE_NODE_H
-#define OCTREE_NODE_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_OCTREE_NODE_H
+#define LIDARVIEWER_OCTREE_NODE_H
 #include <vector>
 #include <cstdint>
 
@@ -55,4 +58,4 @@ struct OctreeNode {
         }
     }
 };
-#endif // OCTREE_NODE_H
+#endif // LIDARVIEWER_OCTREE_NODE_H

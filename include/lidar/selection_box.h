@@ -1,5 +1,8 @@
-#ifndef SELECTIONBOX_H
-#define SELECTIONBOX_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_SELECTIONBOX_H
+#define LIDARVIEWER_SELECTIONBOX_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -77,4 +80,4 @@ inline QRectF SelectionBox::getBox() const {
 }
 inline SelectionBox::SelectMode SelectionBox::getType() const { return _select_mode; }
 
-#endif // SELECTIONBOX_H
+#endif // LIDARVIEWER_SELECTIONBOX_H

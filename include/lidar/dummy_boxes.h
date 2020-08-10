@@ -1,5 +1,8 @@
-#ifndef DUMMYBOXES_H
-#define DUMMYBOXES_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_DUMMYBOXES_H
+#define LIDARVIEWER_DUMMYBOXES_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -41,4 +44,4 @@ private:
 
 };
 
-#endif // DUMMYBOXES_H
+#endif // LIDARVIEWER_DUMMYBOXES_H

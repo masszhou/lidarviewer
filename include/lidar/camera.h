@@ -1,5 +1,8 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_CAMERA_H
+#define LIDARVIEWER_CAMERA_H
 
 #include <QVector3D>
 #include <QVector2D>
@@ -137,4 +140,4 @@ inline void Camera::setImgSize(int w, int h){
 inline void Camera::setProjectionMode(Camera::ProjectionMode mode){ _projection_mode = mode; }
 
 
-#endif // CAMERA_H
+#endif // LIDARVIEWER_CAMERA_H

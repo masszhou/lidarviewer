@@ -1,5 +1,8 @@
-#ifndef CAMERAFRUSTUM_H
-#define CAMERAFRUSTUM_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_CAMERAFRUSTUM_H
+#define LIDARVIEWER_CAMERAFRUSTUM_H
 #include <QVector3D>
 #include "camera.h"
 
@@ -40,4 +43,4 @@ inline QVector3D CameraFrustum::getCameraRightVector() const { return _right; }
 inline QVector3D CameraFrustum::getCameraUpVector() const { return _up; }
 inline QVector3D CameraFrustum::getCameraViewVector() const { return _view; }
 
-#endif // CAMERAFRUSTUM_H
+#endif // LIDARVIEWER_CAMERAFRUSTUM_H

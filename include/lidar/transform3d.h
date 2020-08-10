@@ -1,5 +1,8 @@
-#ifndef TRANSFORM3D_H
-#define TRANSFORM3D_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_TRANSFORM3D_H
+#define LIDARVIEWER_TRANSFORM3D_H
 // from QtOpenGL tutorial by Trent Reed
 // https://www.trentreed.net/topics/opengl/
 #include <QVector3D>
@@ -103,4 +106,4 @@ QDebug operator<<(QDebug dbg, const Transform3D &transform);
 QDataStream &operator<<(QDataStream &out, const Transform3D &transform);
 QDataStream &operator>>(QDataStream &in, Transform3D &transform);
 #endif
-#endif // TRANSFORM3D_H
+#endif // LIDARVIEWER_TRANSFORM3D_H

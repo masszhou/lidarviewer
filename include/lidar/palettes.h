@@ -1,7 +1,10 @@
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+// ref.
 // https://github.com/jgreitemann/colormap/blob/master/include/colormap/palettes.hpp
 // http://www.andrewnoske.com/wiki/Code_-_heatmaps_and_color_gradients
-#ifndef PALETTES_H
-#define PALETTES_H
+#ifndef LIDARVIEWER_PALETTES_H
+#define LIDARVIEWER_PALETTES_H
 #include <map>
 #include <vector>
 
@@ -263,4 +266,4 @@ static float viridis[256][3] = {
     {0.983868f, 0.904867f, 0.136897f},
     {0.993248f, 0.906157f, 0.143936f}};
 
-#endif // PALETTES_H
+#endif // LIDARVIEWER_PALETTES_H

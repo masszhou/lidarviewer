@@ -1,5 +1,8 @@
-#ifndef VERTEX_STL_H
-#define VERTEX_STL_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_VERTEX_STL_H
+#define LIDARVIEWER_VERTEX_STL_H
 #include <vector>
 #include <stddef.h>
 
@@ -51,4 +54,4 @@ inline int VertexSTL::positionOffset() { return offsetof(VertexSTL, m_position);
 inline int VertexSTL::colorOffset() { return offsetof(VertexSTL, m_color);}
 inline int VertexSTL::stride() { return sizeof(VertexSTL);}
 
-#endif // VERTEX_STL_H
+#endif // LIDARVIEWER_VERTEX_STL_H

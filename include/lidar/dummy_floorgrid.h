@@ -1,5 +1,8 @@
-#ifndef DUMMYGRID_H
-#define DUMMYGRID_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_DUMMYGRID_H
+#define LIDARVIEWER_DUMMYGRID_H
 
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
@@ -62,4 +65,4 @@ private:
 
 inline DummyFloorGrid::~DummyFloorGrid(){ tearDown(); }
 
-#endif // DUMMYGRID_H
+#endif // LIDARVIEWER_DUMMYGRID_H

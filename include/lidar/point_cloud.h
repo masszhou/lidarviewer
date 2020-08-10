@@ -1,5 +1,8 @@
-#ifndef POINTCLOUD_H
-#define POINTCLOUD_H
+// created by Zhiliang Zhou 2018-2019
+// https://github.com/masszhou/lidarviewer
+
+#ifndef LIDARVIEWER_POINTCLOUD_H
+#define LIDARVIEWER_POINTCLOUD_H
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
@@ -51,4 +54,4 @@ private:
     float _point_size;
 };
 
-#endif // POINTCLOUD_H
+#endif // LIDARVIEWER_POINTCLOUD_H
