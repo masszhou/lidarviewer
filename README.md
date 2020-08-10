@@ -18,5 +18,5 @@ $ make -j8
 $ cd ${project_dir}
 $ ./build/bin/example_lidarviewer
 [Viewer]: TCP server set up on port  42230
-$ python scripts/test_point_cloud.py 42230
+$ python lidarviewer/test_point_cloud.py 42230
 ```

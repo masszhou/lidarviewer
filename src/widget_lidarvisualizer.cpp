@@ -53,6 +53,8 @@ void LidarVisualizerWidget::initScene() {
     _car_bbox_trans.setTranslation(0.0f, 0.7f, 0.0f);
 
     _point_cloud = QSharedPointer<PointCloud>(new PointCloud);
+
+    _dummy_axis = QSharedPointer<DummyAxis>(new DummyAxis());
 }
 
 void LidarVisualizerWidget::initSocketConnection()
@@ -211,6 +213,7 @@ void LidarVisualizerWidget::initializeGL()
     _car_bbox->initialze();
     _selection_box->initialze();
     _point_cloud->initialze();
+    _dummy_axis->initialze();
 }
 
 void LidarVisualizerWidget::resizeGL(int w, int h)
@@ -232,6 +235,7 @@ void LidarVisualizerWidget::paintGL()
     _dummy_boxes->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_velo_to_gl.getObject2WorldMatrix());
     //    _car_bbox->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _car_bbox_trans.getObject2WorldMatrix());
     _selection_box->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform.getObject2WorldMatrix());
+    _dummy_axis->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform.getObject2WorldMatrix());
 }
 
 // =================================================

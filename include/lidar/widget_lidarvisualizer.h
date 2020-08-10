@@ -18,20 +18,15 @@
 #include "dummy_boxes.h"
 #include "dummy_car.h"
 #include "dummy_canvas.h"
+#include "dummy_axis.h"
 //#include "dummy_floorgrid.h"
 #include "selection_box.h"
 #include "point_cloud.h"
 
 #include <memory>
 
-#if defined MAKE_SHARED_LIB
-#  define SHARED_LIB_EXPORT Q_DECL_EXPORT
-#else
-#  define SHARED_LIB_EXPORT Q_DECL_IMPORT
-#endif
 
-
-class SHARED_LIB_EXPORT LidarVisualizerWidget: public QOpenGLWidget
+class LidarVisualizerWidget: public QOpenGLWidget
 {
     Q_OBJECT
 public:
@@ -76,6 +71,7 @@ private:
     // Non-QObject
     QSharedPointer<DummyBox> _dummy_box;
     QSharedPointer<DummyBoxes> _dummy_boxes;
+    QSharedPointer<DummyAxis> _dummy_axis;
 
     QSharedPointer<DummyCar> _dummy_car;
     QSharedPointer<DummyCanvas> _dummy_background;

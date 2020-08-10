@@ -11,11 +11,11 @@
 
 #include "vertex.h"
 
-class dummy_axis
+class DummyAxis
 {
 public:
-    dummy_axis();
-    dummy_axis(float cx, float cy, float cz, QVector3D x_basis, QVector3D y_basis, QVector3D z_basis);
+    explicit DummyAxis(float scale = 1.0);
+    DummyAxis(QVector3D origin, QVector3D x_basis, QVector3D y_basis, QVector3D z_basis);
 
     void initialze();
     void render(QOpenGLFunctions *f, const QMatrix4x4 &pMatrix, const QMatrix4x4 &vMatrix, const QMatrix4x4 &mMatrix);
