@@ -44,7 +44,7 @@ void LidarVisualizerWidget::initScene() {
                             13.7103815, -0.9327341, -0.9246998, 1.748823, 4.018608, 1.5223817, -1.5574207};
     _dummy_boxes = QSharedPointer<DummyBoxes>(new DummyBoxes);
 
-    //_dummy_car = QSharedPointer<DummyCar>(new DummyCar);
+    _dummy_car = QSharedPointer<DummyCar>(new DummyCar);
     _selection_box = QSharedPointer<SelectionBox>(new SelectionBox);
     _dummy_background = QSharedPointer<DummyCanvas>(new DummyCanvas);
     //    _dummy_floorgrid = QSharedPointer<DummyFloorGrid>(new DummyFloorGrid);
@@ -207,7 +207,7 @@ void LidarVisualizerWidget::initializeGL()
 
     _dummy_box->initialze();
     _dummy_boxes->initialze();
-    //_dummy_car->initialze();
+    _dummy_car->initialze();
     _car_bbox->initialze();
     _selection_box->initialze();
     _point_cloud->initialze();
@@ -226,7 +226,7 @@ void LidarVisualizerWidget::paintGL()
 
     _dummy_background->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform.getObject2WorldMatrix());
     _point_cloud->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_velo_to_gl.getObject2WorldMatrix());
-    //_dummy_car->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_ego_car.getObject2WorldMatrix());
+    _dummy_car->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_ego_car.getObject2WorldMatrix());
 
 //    _dummy_box->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_velo_to_gl.getObject2WorldMatrix());
     _dummy_boxes->render(f, _camera.getIntrinsicMatrix(), _camera.getWorld2CameraMatrix(), _transform_velo_to_gl.getObject2WorldMatrix());

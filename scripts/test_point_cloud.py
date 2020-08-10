@@ -6,14 +6,7 @@ import numpy as np
 import argparse
 import os
 from time import sleep
-
-
-def argparser():
-    parser = argparse.ArgumentParser(description="test viewer")
-    parser.add_argument("--data_path", default="/media/zzhou/data/data-KITTI/object/training/velodyne/003363.bin",
-                        help="root path of lyft 3d object dataset")
-
-    return parser.parse_args()
+import fire
 
 
 class Viewer:
@@ -30,9 +23,9 @@ class Viewer:
     9 = playback camera path animation
     10 = set per point attributes
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, port: int):
         # start up viewer in separate process
-        self._port_number = 10086
+        self._port_number = port
 
     def load_points(self, *args):
         positions = np.asarray(args[0], dtype=np.float32).reshape(-1, 3)
@@ -49,7 +42,7 @@ class Viewer:
             return
         # construct message
         num_points = int(positions.size / 3)
-        msg = struct.pack('b', 1) + struct.pack('i', num_points) + positions.tostring()
+        msg = struct.pack('b', 1) + struct.pack('i', num_points) + positions.tobytes()
         # send message to viewer
         self._send(msg)
 
@@ -74,7 +67,7 @@ class Viewer:
         print("{} [sec]".format(time.time() - start))
 
 
-def load_kitti(path):
+def load_kitti(viewer_port: int, path="/media/zzhou/data-KITTI/object/training/velodyne/003363.bin"):
     pts_kitti = np.fromfile(path, dtype=np.float32, count=-1).reshape(-1, 4)
     # Kitti Lidar coordiantes
     #
@@ -98,23 +91,18 @@ def load_kitti(path):
 
     print(np.max(pts_opengl[:, 3]), np.min(pts_opengl[:, 3]))
 
-    test_view = Viewer()
+    test_view = Viewer(viewer_port)
     test_view.load_points(pts_opengl[:, :3], pts_opengl[:, 3])
 
-    # v = pptk.viewer(pts_kitti[:, :3], pts_kitti[:, 3])
-    # v.set(lookat=(0.0, 0.0, 0.0))
 
-
-def load_ros(path):
-    # load_kitti(FLAGS.data_path)
+def load_npy_folder(viewer_port: int, data_path):
     filenames = []
-    if os.path.isdir(FLAGS.data_path):
-        filenames = [os.path.join(FLAGS.data_path, f)
-                     for f in os.listdir(FLAGS.data_path)
+    if os.path.isdir(data_path):
+        filenames = [os.path.join(data_path, f)
+                     for f in os.listdir(data_path)
                      if f.endswith((".npy"))]
     else:
-        filenames = [FLAGS.data_path, ]
-
+        filenames = [data_path, ]
     filenames.sort()
 
     for each in filenames:
@@ -126,11 +114,10 @@ def load_ros(path):
         pts_opengl[:, 2] = pts_passat[:, 0]*(-1)
         pts_opengl[:, 3] = pts_passat[:, 3]
         pts_opengl[:, :3] = pts_opengl[:, :3]*2
-        test_view = Viewer()
+        test_view = Viewer(viewer_port)
         test_view.load_points(pts_opengl[:, :3], pts_opengl[:, 3])
         sleep(0.1)
 
 
 if __name__ == "__main__":
-    FLAGS = argparser()
-    load_kitti(FLAGS.data_path)
+    fire.Fire(load_kitti)
