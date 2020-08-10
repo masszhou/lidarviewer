@@ -16,7 +16,9 @@ Camera::Camera():
     _rotateRate(PI / 2 / 256),  // PI/2 per 256 pixels
     _projection_mode(PERSPECTIVE)
 {
-    initLookAtPoint(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+    initLookAtPoint(0.0f, 0.0f,
+                    0.0f, 0.0f,
+                    0.0f, 0.0f);
     save();
 }
 
@@ -35,20 +37,31 @@ Camera::Camera(float xmin, float xmax, float ymin, float ymax, float zmin, float
     _rotateRate(PI / 2 / 256),  // PI/2 per 256 pixels
     _projection_mode(PERSPECTIVE)
 {
-    initLookAtPoint(xmin, xmax, ymin, ymax, zmin, zmax);
+    initLookAtPoint(xmin, xmax,
+                    ymin, ymax,
+                    zmin, zmax);
     save();
+    calCameraPosition();
 }
 
-void Camera::initLookAtPoint(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
+void Camera::initLookAtPoint(float xmin, float xmax,
+                             float ymin, float ymax,
+                             float zmin, float zmax,
+                             float altitude, float azimuth, float roll)
 {
+
     // set m_look_at_point to center bottom w.r.t world coordinates
     _look_at_point.setX((xmin + xmax) / 2.0f);
     _look_at_point.setY((ymin + ymax) / 2.0f);
     _look_at_point.setZ((zmin + zmax) / 2.0f);
+    _theta = altitude;
+    _phi = azimuth;
+    _roll = roll;
 
     // init camera position, spherical coordinates w.r.t to m_look_at_point
     // set m_d to length of widest span
     _d = (std::max)(xmax - xmin, (std::max)(ymax - ymin, zmax - zmin));
+    calCameraPosition();
 }
 
 void Camera::save()
@@ -67,35 +80,40 @@ void Camera::restore()
     _d = _saved_d;
     _roll = _saved_roll;
     _look_at_point = _saved_look_at_point;
+    calCameraPosition();
 }
 
+void Camera::calCameraPosition(){
+    // euler roll = 0.0f here
+    QVector3D up_init = QVector3D(-sinf(_theta) * cosf(_phi),cosf(_theta),-sinf(_theta) * sinf(_phi));
+    QVector3D right_init = QVector3D(sinf(_phi),0.0f,-cosf(_phi));
+    QVector3D left_init = QVector3D(-sinf(_phi),0.0f,cosf(_phi));
+    _view_vector = QVector3D(-cosf(_theta) * cosf(_phi),-sinf(_theta),-cosf(_theta) * sinf(_phi));
+    // apply euler roll
+    QQuaternion rotation = QQuaternion::fromAxisAndAngle(_view_vector, _roll*180.0f/3.1415926f);
+
+    _up_vector = rotation * up_init;
+    _right_vector = rotation * right_init;
+    _left_vector = rotation * left_init;
+}
 // =============================
 // accessor
 // =============================
 QVector3D Camera::getUpVector() const {
-    // euler roll = 0.0f here
-    return QVector3D(-sinf(_theta) * cosf(_phi),
-                     cosf(_theta),
-                     -sinf(_theta) * sinf(_phi));
+    return _up_vector;
 }
 
 QVector3D Camera::getRightVector() const{
-    return QVector3D(sinf(_phi),
-                     0.0f,
-                     -cosf(_phi));
+    return _right_vector;
 }
 
 QVector3D Camera::getLeftVector() const
 {
-    return QVector3D(-sinf(_phi),
-                     0.0f,
-                     cosf(_phi));
+    return _left_vector;
 }
 
 QVector3D Camera::getViewVector() const {
-    return QVector3D(-cosf(_theta) * cosf(_phi),
-                     -sinf(_theta),
-                     -cosf(_theta) * sinf(_phi));
+    return _view_vector;
 }
 
 QVector3D Camera::getCameraPosition() const
@@ -127,6 +145,7 @@ const QMatrix4x4& Camera::getIntrinsicMatrix()
 void Camera::setRotation(float theta_rad, float phi_rad){
     _theta = theta_rad;
     _phi = phi_rad;
+    calCameraPosition();
 }
 
 // =============================
@@ -136,6 +155,7 @@ void Camera::rotate(float dx, float dy)
 {
     _phi -= _rotateRate * dx;
     _theta += _rotateRate * dy;
+    calCameraPosition();
 }
 
 void Camera::pan(float dx, float dy)
@@ -156,6 +176,7 @@ void Camera::rotate(QVector2D delta)
     if (_view_axis != ARBITRARY_AXIS)
         _view_axis = ARBITRARY_AXIS;
     rotate(delta.x(), delta.y());
+    calCameraPosition();
 }
 
 void Camera::pan(QVector2D delta)

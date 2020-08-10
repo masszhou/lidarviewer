@@ -43,6 +43,7 @@ public:
     float getPhi() const;
     float getCameraDistance() const;
 
+    void calCameraPosition();
     QVector3D getUpVector() const;
     QVector3D getRightVector() const;
     QVector3D getLeftVector() const;
@@ -65,7 +66,16 @@ public:
     // =============================
     // helper functions
     // =============================
-    void initLookAtPoint(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
+    /**
+     @param xmin in [meter]
+     @param altitude [radius]
+     @param azimuth [radius]
+     @param roll [radius]
+    */
+    void initLookAtPoint(float xmin, float xmax,
+                         float ymin, float ymax,
+                         float zmin, float zmax,
+                         float altitude=0.0f, float azimuth=0.0f, float roll=0.0f);
     void save();
     void restore();
 
@@ -85,6 +95,12 @@ private:
     float _saved_d;
     float _saved_roll;
     QVector3D _saved_look_at_point;
+
+    // camera pose
+    QVector3D _up_vector;
+    QVector3D _right_vector;
+    QVector3D _left_vector;
+    QVector3D _view_vector;
 
     // =============================
     // cartesian coordinates
