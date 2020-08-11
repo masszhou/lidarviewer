@@ -67,8 +67,9 @@ class Viewer:
         print("{} [sec]".format(time.time() - start))
 
 
-def load_kitti(viewer_port: int, path="/media/zzhou/data-KITTI/object/training/velodyne/003363.bin"):
+def load_kitti(viewer_port: int, path="/media/zzhou/data-KITTI/object/training/velodyne/000050.bin"):
     pts_kitti = np.fromfile(path, dtype=np.float32, count=-1).reshape(-1, 4)
+    print(pts_kitti.shape)
     # Kitti Lidar coordiantes
     #
     #           (up)
