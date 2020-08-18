@@ -45,6 +45,12 @@ void PointCloud::loadPoints(std::vector<float> &positions)
     }
 }
 
+void PointCloud::clearPoints()
+{
+    _vertexes.clear();
+    _is_ready = false;
+}
+
 void PointCloud::loadColor(std::vector<float> &colors)
 {
     if (_is_ready){

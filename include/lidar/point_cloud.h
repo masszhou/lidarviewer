@@ -26,6 +26,8 @@ public:
 
     void tearDown();
 
+    void clearPoints();
+
 private:
     void copyVertexesToVBO();
     bool getHeatMapColor(float value, float *red, float *green, float *blue);
