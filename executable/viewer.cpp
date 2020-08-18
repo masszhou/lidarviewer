@@ -3,8 +3,8 @@
 #include <QPainter>
 #include <QtDebug>
 #include <vector>
+#include <iostream>
 
-//#include "window_viewer.h"
 #include "lidar/widget_lidarvisualizer.h"
 
 
@@ -17,6 +17,11 @@ static void usage()
 
 int main(int argc, char *argv[])
 {
+    if (argc < 2){
+        std::cout << "need socket port number, e.g. $./lidarviewer_exec 10086" << std::endl;
+        return -1;
+    }
+
     QApplication app(argc, argv);
 
     // Set OpenGL Version information
