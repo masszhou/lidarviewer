@@ -29,7 +29,7 @@ class LidarViewer:
         self._exec_abs_path = str(Path(__file__).parent / self._exec_file_name)
         # start up viewer in separate process
         if socket_port is None:
-            self._socket_port = random.randint(30000,60000)
+            self._socket_port = random.randint(30000, 60000)
         else:
             self._socket_port = socket_port
 
