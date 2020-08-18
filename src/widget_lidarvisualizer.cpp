@@ -79,7 +79,7 @@ void LidarVisualizerWidget::on_init()
         }
         connect(_server.data(), SIGNAL(newConnection()), this, SLOT(on_reply()));
         qDebug() << "[Viewer]: TCP server set up on port " << _server->serverPort();
-        comm::sendBytes((const char*)&server_port, sizeof(quint16), client_connection);
+        comm::sendBytes(reinterpret_cast<char*>(&server_port), sizeof(uint32_t), client_connection);
     }
 }
 
@@ -118,9 +118,7 @@ void LidarVisualizerWidget::on_reply()
     }
     case 2: {  // clear points
         qDebug() << "clear points";
-        //        _points->clearPoints();
-        //        renderPoints();
-        //        renderPointsFine();
+        _point_cloud->clearPoints();
         break;
     }
     case 3: {  // reset view to fit all

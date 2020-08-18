@@ -50,7 +50,7 @@ class Viewer:
             >>> v.clear()
         """
         msg = struct.pack('b', 2)
-        self.__send(msg)
+        self._send(msg)
 
     def _load_positions(self, positions):
         # if no points, then done
@@ -96,8 +96,9 @@ class Viewer:
         s.setblocking(0)
         ready = select.select([s], [], [], 3)  # timeout in 3 sec
         if ready[0]:
-            data = s.recv(10086)
-            print(data)
+            data = s.recv(10086)  # bytestring
+            port = struct.unpack("<L", data)[0]
+            print(f"server port:{port}")
         s.close()
 
 
@@ -128,6 +129,8 @@ def load_kitti(path: str = "/media/zzhou/data-KITTI/object/training/velodyne/000
 
     test_view = Viewer(viewer_port)
     test_view.load_points(pts_kitti[:, :3], pts_kitti[:, 3])
+    sleep(3)
+    test_view.clear()
 
 
 def load_npy_folder(data_path, viewer_port: Optional[int] = None):
