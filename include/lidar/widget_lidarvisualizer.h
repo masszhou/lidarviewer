@@ -30,16 +30,15 @@ class LidarVisualizerWidget: public QOpenGLWidget
 {
     Q_OBJECT
 public:
-    LidarVisualizerWidget(QWidget *parent = nullptr);
+    explicit LidarVisualizerWidget(uint32_t server_port, QWidget *parent = nullptr);
 
     // helper function
     QPointF normCoord(QPointF p);
-    void initScene();
+    void initScene(uint32_t server_port);
 
 protected slots:
     void on_update();
     void on_reply();
-    void on_init();
 
 protected:
     void initializeGL() override;
@@ -87,7 +86,6 @@ private:
     // communication
     // QObject
     QPointer<QTcpServer> _server;
-    QPointer<QTcpServer> _echo_server;
     QPointer<QTcpSocket> _socket_waiting_on_enter_key;
     QList<QPointer<QTcpSocket> >  _sockets;
 

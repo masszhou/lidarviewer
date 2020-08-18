@@ -33,7 +33,6 @@ class Viewer:
             self._port_number = random.randint(30000,60000)
         else:
             self._port_number = port_num
-        self._reserve_port()
 
     def load_points(self, *args):
         positions = np.asarray(args[0], dtype=np.float32).reshape(-1, 3)

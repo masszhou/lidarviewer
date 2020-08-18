@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     format.setVersion(3, 3);
 
     // Set widget up
-    LidarVisualizerWidget *widget = new LidarVisualizerWidget;
+    auto *widget = new LidarVisualizerWidget(atoi(argv[1]));
     widget->setFormat(format);
 //    widget->initSocketConnection();
 

@@ -7,15 +7,15 @@
 #include "lidar/comm_funcs.h"
 
 
-LidarVisualizerWidget::LidarVisualizerWidget(QWidget *parent):
+LidarVisualizerWidget::LidarVisualizerWidget(uint32_t server_port, QWidget *parent):
     _screenshot_counter(0),
     _dummy_box(nullptr)
 {
-    initScene();
+    initScene(server_port);
 }
 
 
-void LidarVisualizerWidget::initScene() {
+void LidarVisualizerWidget::initScene(uint32_t server_port) {
     setFocusPolicy(Qt::StrongFocus);
     // --------------------------------------------------------------------------
     // add transformations
@@ -48,39 +48,13 @@ void LidarVisualizerWidget::initScene() {
     // --------------------------------------------------------------------------
     // init socket
     // --------------------------------------------------------------------------
-    _echo_server = QPointer<QTcpServer>(new QTcpServer());
-    if (!_echo_server->listen(QHostAddress::LocalHost, 10086)) {
-        qDebug() << _echo_server->errorString().toLocal8Bit().constData();
+    _server = QPointer<QTcpServer>(new QTcpServer());
+    if (!_server->listen(QHostAddress::LocalHost, server_port)) {
+        qDebug() << _server->errorString().toLocal8Bit().constData();
         exit(1);
     }
-    connect(_echo_server, SIGNAL(newConnection()), this, SLOT(on_init()));
-    qDebug() << "[Viewer]: monitoring port " << _echo_server->serverPort();
-}
-
-void LidarVisualizerWidget::on_init()
-{
-    QTcpSocket* client_connection = _echo_server->nextPendingConnection();
-    connect(client_connection, SIGNAL(disconnected()), client_connection, SLOT(deleteLater()));
-
-    // read first byte of incoming message
-    char msg_type;
-    comm::receiveBytes(&msg_type, 1, client_connection);
-
-    if (static_cast<int>(msg_type)==11){
-        uint32_t server_port;
-        comm::receiveBytes(reinterpret_cast<char*>(&server_port), sizeof(uint32_t), client_connection);
-        if (_server != nullptr){
-            delete _server;
-        }
-        _server = QPointer<QTcpServer>(new QTcpServer());
-        if (!_server->listen(QHostAddress::LocalHost, server_port)) {
-            qDebug() << _server->errorString().toLocal8Bit().constData();
-            exit(1);
-        }
-        connect(_server.data(), SIGNAL(newConnection()), this, SLOT(on_reply()));
-        qDebug() << "[Viewer]: TCP server set up on port " << _server->serverPort();
-        comm::sendBytes(reinterpret_cast<char*>(&server_port), sizeof(uint32_t), client_connection);
-    }
+    connect(_server.data(), SIGNAL(newConnection()), this, SLOT(on_reply()));
+    qDebug() << "[Viewer]: TCP server set up on port " << _server->serverPort();
 }
 
 void LidarVisualizerWidget::on_update()
