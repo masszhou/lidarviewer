@@ -85,46 +85,27 @@ set(LIDARVIEWER_HEADER_FILES
         include/lidar/widget_lidarvisualizer.h
 )
 
-add_library(${PROJECT_NAME} SHARED
-           ${LIDARVIEWER_SOURCE_FILES}
-           ${LIDARVIEWER_HEADER_FILES}
-           ${RESOURCES})
-target_include_directories(${PROJECT_NAME}
+add_executable(lidarviewer_exec
+        executable/viewer.cpp
+        ${LIDARVIEWER_SOURCE_FILES}
+        ${LIDARVIEWER_HEADER_FILES}
+        ${RESOURCES})
+target_link_libraries(lidarviewer_exec
         PUBLIC
-            include
-        )
-# PUBLIC lets CMake know that any targets that link to this target must also need that include directory.
-
-target_link_libraries(${PROJECT_NAME}
+        Qt5::Widgets
+        Qt5::Gui
+        Qt5::Core
+        Qt5::OpenGL
+        Qt5::Network)
+target_include_directories(lidarviewer_exec
         PUBLIC
-            Qt5::Widgets
-            Qt5::Gui
-            Qt5::Core
-            Qt5::OpenGL
-            Qt5::Network
+        include
         )
-
-set_target_properties(${PROJECT_NAME}
+set_target_properties(lidarviewer_exec
         PROPERTIES
-          ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-          LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-          RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        CXX_STANDARD 14
+        POSITION_INDEPENDENT_CODE ON
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
         )
 
-
-# ---------------------------------------------------------------------
-# example Setup
-# ---------------------------------------------------------------------
-option(BUILD_EXAMPLES "Build Examples" "${NE_DEVELOPER_DEFAULTS}")
-if(BUILD_EXAMPLES)
-  add_executable(example_lidarviewer executable/viewer.cpp)
-  target_link_libraries(example_lidarviewer PUBLIC ${PROJECT_NAME})
-
-  set_target_properties(example_lidarviewer
-          PROPERTIES
-          ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-          LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-          RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-          )
-endif()
 
