@@ -12,12 +12,12 @@ PointCloud::PointCloud():
 
 }
 
-void PointCloud::loadPoints(std::vector<float> &positions)
+void PointCloud::loadPoints(std::vector<float> &positions, bool build_octree)
 {
     _positions.swap(positions);  // give data ownership to PointCloud instance
     _num_points = _positions.size() / 3;
 
-    {
+    if (build_octree){
         clock_t begin = clock();
         _octree.buildTree(_positions, _sizes, 32);  // e.g. max_leaf_size = 32
         clock_t end = clock();

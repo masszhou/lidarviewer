@@ -18,7 +18,7 @@ class PointCloud
 public:
     PointCloud();
 
-    void loadPoints(std::vector<float>& positions);
+    void loadPoints(std::vector<float>& positions, bool build_octree=false);
     void loadColor(std::vector<float>& colors);
 
     void initialze();
