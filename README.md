@@ -13,15 +13,11 @@ $ cmake -DCMAKE_BUILD_TYPE=Release ..
 $ make -j8
 
 // install python interface (optional)
-cp lidarviewer_exec ../lidarviewer // copy qt gui app to package folder
-cd ..
-python setup.py bdist_wheel  // compile pip package 
-pip install dist/{package_name}.whl  // under your virtual env
+$ cp lidarviewer_exec ../lidarviewer // copy qt gui app to package folder
+$ cd ..
+$ python setup.py bdist_wheel  // compile pip package 
+$ pip install dist/{package_name}.whl  // under your virtual env
 ```
-
-* copy Qt gui app to package folder
-
-
 
 # 3. usage
 * use Qt app directly
