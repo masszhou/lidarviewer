@@ -48,20 +48,7 @@ void PointCloud::loadPoints(std::vector<float> &positions)
 void PointCloud::loadColor(std::vector<float> &colors)
 {
     if (_is_ready){
-//        Q_ASSERT(colors.size() == _vertexes.size());  // here mixed std::vector and qvector
         for (std::size_t i=0; i< colors.size(); ++i){
-//            if (colors[i]<0.6){
-////                float r, g, b;
-////                getHeatMapColor(colors[i]/0.39, &r, &g, &b);
-//                _vertexes[i].setColor(0.0f, 0.6f + colors[i]/2.0f, 0.2f+colors[i]/2.0f);
-//            }else{
-//                _vertexes[i].setColor(colors[i] + 0.3f, 0.8f, 0.0f);
-//            }
-//            float r, g, b;
-            // from velodyne VLP32E manual book
-            // Diffuse reflectors report values from 0 to 100 for reflectivities from 0%to 100%
-            // Retroreflectors report values from 101 to 255, where 255 represents an idealreflection.
-            // which does not fit KITTI lidar data
             _vertexes[i].setColor(0.0f, 0.5f+colors[i]/2, 0.2f+colors[i]/2);
         }
         copyVertexesToVBO();

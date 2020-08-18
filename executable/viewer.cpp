@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     // Set widget up
     LidarVisualizerWidget *widget = new LidarVisualizerWidget;
     widget->setFormat(format);
-    widget->initSocketConnection();
+//    widget->initSocketConnection();
 
     // Set the window up
     QMainWindow window;

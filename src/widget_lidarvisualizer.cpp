@@ -16,14 +16,13 @@ LidarVisualizerWidget::LidarVisualizerWidget(QWidget *parent):
 
 
 void LidarVisualizerWidget::initScene() {
+    setFocusPolicy(Qt::StrongFocus);
     // --------------------------------------------------------------------------
-    // opengl initialization
+    // add transformations
     // --------------------------------------------------------------------------
     _transform.setTranslation(0.0f, 0.0f, 0.0f);  // set box at origin
-
     _transform_ego_car.setTranslation(0.0f, 0.0f, -1.7f);
     _transform_ego_car.rotate(90.0f, QVector3D(1.0f, 0.0f, 0.0f));  // rotate around x axis for 90 degrees
-
     // transfor from velodyne coord to opengl coord
     //        z x      y
     //        |/       |
@@ -31,64 +30,65 @@ void LidarVisualizerWidget::initScene() {
     //                /
     //               z
     _transform_velo_to_gl.setTranslation(0.0f, 0.0f, 0.0f);  // no offset for label boxes
-
     _camera.initLookAtPoint(-5.0f, 5.0f, -5.0f, 5.0f, -5.0f, 5.0f, 0.0f, 3.14159f/2.0f, 0.0f);
 
-    setFocusPolicy(Qt::StrongFocus);
-
+    // --------------------------------------------------------------------------
+    // add objects into scene
+    // --------------------------------------------------------------------------
     _dummy_box = QSharedPointer<DummyBox>(new DummyBox(-10.774f, -4.827f,  -1.014f, 1.556f, 3.858f, 1.402f));  // x,y,z,w,h,l in kitti velodyne coordinates
-
-    QVector<float> boxes = {-10.774345, -4.8273034, -1.0148145, 1.5563552, 3.8583605, 1.4025569, -3.1160157,
-                            13.7103815, -0.9327341, -0.9246998, 1.748823, 4.018608, 1.5223817, -1.5574207};
     _dummy_boxes = QSharedPointer<DummyBoxes>(new DummyBoxes);
-
     _dummy_car = QSharedPointer<DummyCar>(new DummyCar);
     _selection_box = QSharedPointer<SelectionBox>(new SelectionBox);
     _dummy_background = QSharedPointer<DummyCanvas>(new DummyCanvas);
-    //    _dummy_floorgrid = QSharedPointer<DummyFloorGrid>(new DummyFloorGrid);
-
     _car_bbox = QSharedPointer<DummyBox>(new DummyBox(0.0f, 0.0f, 0.0f, 4.8f, 1.6f, 2.1f));  // x,y,z,w,h,l
     _car_bbox_trans.setTranslation(0.0f, 0.7f, 0.0f);
-
     _point_cloud = QSharedPointer<PointCloud>(new PointCloud);
-
     _dummy_axis = QSharedPointer<DummyAxis>(new DummyAxis());
-}
-
-void LidarVisualizerWidget::initSocketConnection()
-{
-    qsrand(QDateTime::currentMSecsSinceEpoch() / 1000);
-    quint16 number = 50000;
-    quint16 random_port = qrand() % number;
 
     // --------------------------------------------------------------------------
-    // setup tcp server
+    // init socket
     // --------------------------------------------------------------------------
-    // set up TCP server for receiving commands from Python terminal (client)
-    _server = QPointer<QTcpServer>(new QTcpServer());
-    quint16 server_port = random_port;
-    if (!_server->listen(QHostAddress::LocalHost, server_port)) {
-        qDebug() << _server->errorString().toLocal8Bit().constData();
+    _echo_server = QPointer<QTcpServer>(new QTcpServer());
+    if (!_echo_server->listen(QHostAddress::LocalHost, 10086)) {
+        qDebug() << _echo_server->errorString().toLocal8Bit().constData();
         exit(1);
     }
-    connect(_server.data(), SIGNAL(newConnection()), this, SLOT(reply()));
-    qDebug() << "[Viewer]: TCP server set up on port " << _server->serverPort();
+    connect(_echo_server, SIGNAL(newConnection()), this, SLOT(on_init()));
+    qDebug() << "[Viewer]: monitoring port " << _echo_server->serverPort();
 }
 
-
-QPointF LidarVisualizerWidget::normCoord(QPointF p)
+void LidarVisualizerWidget::on_init()
 {
-    QVector2D v = QVector2D(p) * QVector2D(2.0f / width(), -2.0f / height()) + QVector2D(-1.0f, 1.0f);
-    //QVector2D v = QVector2D(p) * QVector2D(1.0f / width(), 1.0f / height());
-    return QPointF(double(v.x()), double(v.y()));
+    QTcpSocket* client_connection = _echo_server->nextPendingConnection();
+    connect(client_connection, SIGNAL(disconnected()), client_connection, SLOT(deleteLater()));
+
+    // read first byte of incoming message
+    char msg_type;
+    comm::receiveBytes(&msg_type, 1, client_connection);
+
+    if (static_cast<int>(msg_type)==11){
+        uint32_t server_port;
+        comm::receiveBytes(reinterpret_cast<char*>(&server_port), sizeof(uint32_t), client_connection);
+        if (_server != nullptr){
+            delete _server;
+        }
+        _server = QPointer<QTcpServer>(new QTcpServer());
+        if (!_server->listen(QHostAddress::LocalHost, server_port)) {
+            qDebug() << _server->errorString().toLocal8Bit().constData();
+            exit(1);
+        }
+        connect(_server.data(), SIGNAL(newConnection()), this, SLOT(on_reply()));
+        qDebug() << "[Viewer]: TCP server set up on port " << _server->serverPort();
+        comm::sendBytes((const char*)&server_port, sizeof(quint16), client_connection);
+    }
 }
 
-void LidarVisualizerWidget::update()
+void LidarVisualizerWidget::on_update()
 {
     QOpenGLWidget::update();
 }
 
-void LidarVisualizerWidget::reply()
+void LidarVisualizerWidget::on_reply()
 {
     qDebug() << "[Viewer]: server got signal";
     QTcpSocket* clientConnection = _server->nextPendingConnection();
@@ -336,4 +336,11 @@ void LidarVisualizerWidget::mouseReleaseEvent(QMouseEvent *ev)
             _camera.save();
         }
     }
+}
+
+QPointF LidarVisualizerWidget::normCoord(QPointF p)
+{
+    QVector2D v = QVector2D(p) * QVector2D(2.0f / width(), -2.0f / height()) + QVector2D(-1.0f, 1.0f);
+    //QVector2D v = QVector2D(p) * QVector2D(1.0f / width(), 1.0f / height());
+    return QPointF(double(v.x()), double(v.y()));
 }

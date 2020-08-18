@@ -35,11 +35,11 @@ public:
     // helper function
     QPointF normCoord(QPointF p);
     void initScene();
-    void initSocketConnection();
 
 protected slots:
-    void update();
-    void reply();
+    void on_update();
+    void on_reply();
+    void on_init();
 
 protected:
     void initializeGL() override;
@@ -87,6 +87,7 @@ private:
     // communication
     // QObject
     QPointer<QTcpServer> _server;
+    QPointer<QTcpServer> _echo_server;
     QPointer<QTcpSocket> _socket_waiting_on_enter_key;
     QList<QPointer<QTcpSocket> >  _sockets;
 
