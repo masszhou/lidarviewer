@@ -4,6 +4,9 @@
 * only cmake build tested
 * test environment, qt 5.15.0, python 3.8
 
+my changes:
+* rewrite with opengl 2.0, pptk used opengl 1.0
+
 # 2.Install
 ```
 $ cd ${project_dir}
